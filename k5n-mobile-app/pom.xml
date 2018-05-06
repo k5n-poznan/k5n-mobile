@@ -24,6 +24,23 @@
             <version>4.1.1.4</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.k5n.mobile</groupId>
+            <artifactId>k5n-mobile-fx</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.javafxports</groupId>
+            <artifactId>jfxdvk</artifactId>
+            <version>8.60.10</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.android.support</groupId>
+            <artifactId>multidex</artifactId>
+            <version>1.0.1</version>
+            <type>aar</type>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
