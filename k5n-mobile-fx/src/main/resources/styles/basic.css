@@ -1,0 +1,20 @@
+
+.root {
+     -fx-background-image: url("images/background.png");
+     -fx-background-position: center;
+     -fx-background-size: stretch;
+}
+
+.button {
+    -fx-font-weight: bold;
+}
+
+.label {
+    -fx-font-weight: bold;
+}
+
+.mainFxmlClass {
+     -fx-background-image: url("images/background.png");
+     -fx-background-position: center;
+     -fx-background-size: stretch;
+}

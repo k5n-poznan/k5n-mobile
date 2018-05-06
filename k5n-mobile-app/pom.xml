@@ -1,0 +1,166 @@
+<?xml version='1.0' encoding='utf-8'?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.k5n.mobile</groupId>
+        <artifactId>k5n-mobile</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>k5n-mobile-app</artifactId>
+    <packaging>apk</packaging>
+    <name>K5N Mobile (Android)</name>
+    
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <android.sdk.platform>26</android.sdk.platform>
+    </properties>    
+    
+    <dependencies>
+        <dependency>
+            <groupId>com.google.android</groupId>
+            <artifactId>android</artifactId>
+            <version>4.1.1.4</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.7.0</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.10</version>
+                <executions>
+                    <execution>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>unpack-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <includeScope>runtime</includeScope>
+                            <!-- It's crucial to specify Java 8 dependencies only -->
+                            <!--includeGroupIds>saba.ibank.mobile,com.google.dagger</includeGroupIds-->
+                            <includeTypes>jar</includeTypes>
+                            <excludeArtifactIds>ibank-mobile-platform-desktop</excludeArtifactIds>
+                            <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>process-classes</phase>
+                        <configuration>
+                            <tasks>
+                                <unzip src="${project.basedir}/src/main/libs/ext/jfxrt.jar" dest="${project.build.directory}/classes">
+                                    <patternset>
+                                        <exclude name="META-INF"/>
+                                        <exclude name="META-INF/*"/>
+                                    </patternset>
+                                </unzip>
+                                <unzip src="${project.basedir}/src/main/libs/ext/jfxdvk.jar" dest="${project.build.directory}/classes">
+                                    <patternset>
+                                        <exclude name="META-INF"/>
+                                        <exclude name="META-INF/*"/>
+                                    </patternset>
+                                </unzip>
+                                <unzip src="${project.basedir}/src/main/libs/ext/compat-1.0.0.jar" dest="${project.build.directory}/classes">
+                                    <patternset>
+                                        <exclude name="META-INF"/>
+                                        <exclude name="META-INF/*"/>
+                                    </patternset>
+                                </unzip>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>net.orfjackal.retrolambda</groupId>
+                <artifactId>retrolambda-maven-plugin</artifactId>
+                <version>2.5.3</version>
+                <executions>
+                    <execution>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>process-main</goal>
+                            <goal>process-test</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <defaultMethods>true</defaultMethods>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.simpligility.maven.plugins</groupId>
+                <artifactId>android-maven-plugin</artifactId>
+                <version>4.5.0</version>
+                <extensions>true</extensions>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                    </execution>
+                </executions>                
+                <configuration>
+                    <sdk>
+                        <platform>19</platform>
+                        <buildTools>28.0.0-rc1</buildTools>
+                    </sdk>
+                    <undeployBeforeDeploy>true</undeployBeforeDeploy>
+                    <nativeLibrariesDirectory>src/main/libs</nativeLibrariesDirectory>
+                    <dex>
+                        <coreLibrary>true</coreLibrary>
+                        <multiDex>true</multiDex>
+                        <minimalMainDex>true</minimalMainDex>
+                        <mainDexList>${project.build.directory}/MainDexList.txt</mainDexList>
+                        <generateMainDexList>true</generateMainDexList>
+                    </dex>
+                    <dexCoreLibrary>true</dexCoreLibrary>
+                    <artifactSet>
+                        <includes>
+                            <include>com.android.support:multidex</include>
+                        </includes>                        
+                        <excludes>
+                            <exclude>saba.ibank.mobile:*,com.google.dagger:*</exclude>
+                        </excludes>
+                    </artifactSet>                    
+                    <artifactTypeSet>
+                        <includes>
+                            <include>aar</include>
+                        </includes>
+                        <excludes>
+                            <exclude>jar</exclude>
+                        </excludes>
+                    </artifactTypeSet>                    
+                    <buildConfigConstants>
+                        <buildConfigConstant>
+                            <name>APPLICATION_ID</name>
+                            <value>${project.name}</value>
+                            <type>String</type>
+                        </buildConfigConstant>
+                        <buildConfigConstant>
+                            <name>VERSION_NAME</name>
+                            <value>${project.version}</value>
+                            <type>String</type>
+                        </buildConfigConstant>
+                    </buildConfigConstants>
+                </configuration>
+            </plugin>
+        </plugins>
+        <finalName>k5n-mobile-app</finalName>
+    </build>
+</project>

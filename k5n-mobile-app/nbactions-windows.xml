@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+    <action>
+        <actionName>run</actionName>
+        <goals>
+            <goal>package</goal>
+            <!--goal>install</goal-->
+            <goal>android:deploy</goal>            
+            <goal>android:run</goal>
+        </goals>
+    </action>
+    <action>
+        <actionName>debug</actionName>
+        <goals>
+            <goal>package</goal>
+            <!--goal>install</goal-->
+            <goal>android:deploy</goal>
+            <goal>android:run</goal>
+        </goals>
+        <properties>
+            <jpda.attach>true</jpda.attach>
+            <!--jpda.attach.transport>dt_shmem</jpda.attach.transport>
+            <jpda.attach.address>mysharedmemory</jpda.attach.address-->
+            <!--jpda.attach.transport>dt_socket</jpda.attach.transport-->
+            <!--jpda.attach.address>localhost:7543</jpda.attach.address-->
+            <android.run.debug>${jpda.attach.port}</android.run.debug>
+        </properties>
+    </action>
+</actions>

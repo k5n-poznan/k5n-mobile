@@ -1,0 +1,61 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 26
+    dexOptions {
+        preDexLibraries = false
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDir file("src/main/libs/")
+            assets.srcDirs = ['src/main/assets/']
+        }
+    }
+    defaultConfig {
+        applicationId "org.k5n.mobile.admin"
+        minSdkVersion 19
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled true
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+    buildTypes {
+        debug {
+            buildConfigField "boolean", "REPORT_CRASHES", "true"
+        }
+        release {
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //multiDexKeepProguard file('multidex-config.pro')
+            buildConfigField "boolean", "REPORT_CRASHES", "false"
+        }
+    }
+    productFlavors {
+    }
+    buildToolsVersion '27.0.3'
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    packagingOptions {
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/INDEX.LIST'
+    }
+
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'src/main/libs/ext/')
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    implementation('org.k5n.mobile:k5n-mobile-fx:1.0-SNAPSHOT') {
+        exclude group: 'org.k5n.mobile', module: 'k5n-mobile-desktop'
+
+    }
+    implementation 'com.android.support:multidex:1.0.1'
+}
+

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+    <artifactId>k5n-mobile</artifactId>
+    <groupId>org.k5n.mobile</groupId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+
+    <groupId>org.k5n.mobile</groupId>
+    <artifactId>k5n-mobile-fx</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <name>K5N Mobile FX</name>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <mainClass>org.k5n.mobile.MainApp</mainClass>
+    </properties>
+
+    <organization>
+        <name>K5N</name>
+    </organization>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.k5n.mobile</groupId>
+            <artifactId>k5n-mobile-application</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.k5n.mobile</groupId>
+            <artifactId>k5n-mobile-desktop</artifactId>
+            <version>${project.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+    </dependencies>
+
+
+    <build>
+        <finalName>k5n-mobile-fx</finalName>
+    </build>
+
+</project>
