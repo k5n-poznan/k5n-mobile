@@ -12,7 +12,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import org.k5n.mobile.view.LoginController;
-import org.k5n.mobile.view.MainController;
 import org.k5n.mobile.view.MessagesController;
 import org.k5n.mobile.view.settings.ConnetionController;
 import org.k5n.mobile.view.settings.PropertiesController;
