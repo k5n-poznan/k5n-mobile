@@ -155,12 +155,21 @@
                     </sdk>
                     <undeployBeforeDeploy>true</undeployBeforeDeploy>
                     <nativeLibrariesDirectory>src/main/libs</nativeLibrariesDirectory>
+                    <dexPreDex>false</dexPreDex>
+                    <proguard>
+                        <skip>true</skip>
+                        <config>${project.basedir}/proguard.conf</config>
+                    </proguard>
                     <dex>
                         <coreLibrary>true</coreLibrary>
                         <multiDex>true</multiDex>
                         <minimalMainDex>true</minimalMainDex>
                         <mainDexList>${project.build.directory}/MainDexList.txt</mainDexList>
                         <generateMainDexList>true</generateMainDexList>
+                        <jvmArguments>
+                            <jvmArgument>-Xms2048m</jvmArgument>
+                            <jvmArgument>-Xmx4096m</jvmArgument>
+                        </jvmArguments>                        
                     </dex>
                     <dexCoreLibrary>true</dexCoreLibrary>
                     <artifactSet>
@@ -168,7 +177,7 @@
                             <include>com.android.support:multidex</include>
                         </includes>                        
                         <excludes>
-                            <exclude>saba.ibank.mobile:*,com.google.dagger:*</exclude>
+                            <exclude>saba.ibank.mobile:*</exclude>
                         </excludes>
                     </artifactSet>                    
                     <artifactTypeSet>
@@ -192,6 +201,14 @@
                         </buildConfigConstant>
                     </buildConfigConstants>
                 </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>net.sf.proguard</groupId>
+                        <artifactId>proguard-base</artifactId>
+                        <version>6.0.2</version>
+                        <scope>runtime</scope>
+                    </dependency>
+                </dependencies>                
             </plugin>
         </plugins>
         <finalName>k5n-mobile-app</finalName>
