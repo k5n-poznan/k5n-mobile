@@ -54,8 +54,9 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     implementation('org.k5n.mobile:k5n-mobile-fx:1.0-SNAPSHOT') {
         exclude group: 'org.k5n.mobile', module: 'k5n-mobile-desktop'
-
+        exclude group: 'javax.annotation', module: 'javax.annotation-api'
     }
+    implementation 'javax.activation:activation:1.1.1'
     implementation 'com.android.support:multidex:1.0.1'
 }
 
