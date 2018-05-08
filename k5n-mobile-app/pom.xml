@@ -28,12 +28,28 @@
             <groupId>org.k5n.mobile</groupId>
             <artifactId>k5n-mobile-fx</artifactId>
             <version>${project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.annotation</groupId>
+                    <artifactId>javax.annotation-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.k5n.mobile</groupId>
+                    <artifactId>k5n-mobile-desktop</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.javafxports</groupId>
             <artifactId>jfxdvk</artifactId>
             <version>8.60.10</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.activation</groupId>
+            <artifactId>activation</artifactId>
+            <version>1.1.1</version>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>com.android.support</groupId>
@@ -119,7 +135,7 @@
                 </executions>
                 <configuration>
                     <defaultMethods>true</defaultMethods>
-                    <target>1.6</target>
+                    <target>1.7</target>
                 </configuration>
             </plugin>
             <plugin>
