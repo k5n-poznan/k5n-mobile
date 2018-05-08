@@ -156,6 +156,7 @@
                     <undeployBeforeDeploy>true</undeployBeforeDeploy>
                     <nativeLibrariesDirectory>src/main/libs</nativeLibrariesDirectory>
                     <dexPreDex>false</dexPreDex>
+                    <dexCoreLibrary>true</dexCoreLibrary>
                     <proguard>
                         <skip>true</skip>
                         <config>${project.basedir}/proguard.conf</config>
@@ -171,7 +172,6 @@
                             <jvmArgument>-Xmx4096m</jvmArgument>
                         </jvmArguments>                        
                     </dex>
-                    <dexCoreLibrary>true</dexCoreLibrary>
                     <artifactSet>
                         <includes>
                             <include>com.android.support:multidex</include>
