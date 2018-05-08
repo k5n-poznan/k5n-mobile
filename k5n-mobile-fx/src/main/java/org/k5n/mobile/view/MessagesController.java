@@ -15,6 +15,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
+import javafx.stage.Stage;
+import javax.inject.Inject;
 
 /**
  * FXML Controller class
@@ -26,16 +28,17 @@ public class MessagesController implements Initializable {
     @FXML
     private TextArea errortext;
     
-    private Parent parent;
-    
+    private Scene parent;
+
+    @Inject
+    private Stage stage;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        this.parent = stage.getScene();
     }    
 
-    public void initError(Parent parent, Throwable th) {
-        this.parent = parent;
+    public void showError(Throwable th) {
         String message = "";
         Throwable cause = th.getCause();
         while(cause != null) {
@@ -47,8 +50,7 @@ public class MessagesController implements Initializable {
     
     @FXML
     private void handleCancelButtonAction(ActionEvent event) {
-        Scene scene = ((Node) event.getSource()).getScene();
-        scene.setRoot(parent);
+        stage.setScene(parent);
     }
     
 }

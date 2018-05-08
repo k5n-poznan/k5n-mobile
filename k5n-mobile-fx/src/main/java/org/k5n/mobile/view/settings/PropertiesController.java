@@ -15,6 +15,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import javax.inject.Inject;
 import org.k5n.mobile.api.MobilePlatform;
 import org.k5n.mobile.api.Properties;
 import org.k5n.mobile.api.SettingService;
@@ -29,37 +31,32 @@ public class PropertiesController implements Initializable {
     @FXML
     private TextField serviceurl;
     
-    private Parent parent;
+    @Inject
+    private Stage stage;
     
+    private Scene parent;
+
+    @Inject
+    private MobilePlatform mp;
+    
+    @Inject
+    private SettingService setting;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        this.parent = stage.getScene();
+        serviceurl.setText(setting.retrieve(Properties.ENDPOINT_URL));
     }    
 
-    public void initSettings(Parent parent) {
-        this.parent = parent;
-        MobilePlatform mp = MobilePlatform.getIstance();
-        SettingService setting = mp.getSettingService();
-        
-        serviceurl.setText(setting.retrieve(Properties.ENDPOINT_URL));
-    }
-    
     @FXML
     private void handleSaveButtonAction(ActionEvent event) {
-        MobilePlatform mp = MobilePlatform.getIstance();
-        SettingService setting = mp.getSettingService();
-        
         setting.store(Properties.ENDPOINT_URL, serviceurl.getText());
-
-        Scene scene = ((Node) event.getSource()).getScene();
-        scene.setRoot(parent);
+        stage.setScene(parent);
     }
     
     @FXML
     private void handleCancelButtonAction(ActionEvent event) {
-        Scene scene = ((Node) event.getSource()).getScene();
-        scene.setRoot(parent);
+        stage.setScene(parent);
     }
     
 }
