@@ -42,10 +42,6 @@ public class MainApp extends Application {
 
         Platform.runLater(() -> {
             InjectionManager im = Injections.createInjectionManager();
-            BootstrapBag bootstrapBag = new BootstrapBag();
-            bootstrapBag.setManagedObjectsFinalizer(new ManagedObjectsFinalizer(im));
-            List<BootstrapConfigurator> bootstrapConfigurators = Arrays.asList();
-            bootstrapConfigurators.forEach(configurator -> configurator.init(im, bootstrapBag));
 
             im.register(new AbstractBinder() {
                 @Override
