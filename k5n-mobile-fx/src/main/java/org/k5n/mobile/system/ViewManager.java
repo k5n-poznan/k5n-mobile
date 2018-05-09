@@ -105,8 +105,5 @@ public class ViewManager {
             log.log(Level.SEVERE, null, ex);
         }
     }
-    
-    
-    
 
 }
