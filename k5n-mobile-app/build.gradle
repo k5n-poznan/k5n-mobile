@@ -33,7 +33,7 @@ android {
     }
     productFlavors {
     }
-    buildToolsVersion '27.0.3'
+    buildToolsVersion '28.0.0 rc1'
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -55,6 +55,7 @@ dependencies {
     implementation('org.k5n.mobile:k5n-mobile-fx:1.0-SNAPSHOT') {
         exclude group: 'org.k5n.mobile', module: 'k5n-mobile-desktop'
         exclude group: 'javax.annotation', module: 'javax.annotation-api'
+        exclude group: 'org.glassfish.hk2.external', module: 'javax.inject'
     }
     implementation 'javax.activation:activation:1.1.1'
     implementation 'com.android.support:multidex:1.0.1'

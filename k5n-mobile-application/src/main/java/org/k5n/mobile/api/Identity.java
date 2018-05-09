@@ -15,10 +15,10 @@ import org.k5n.mobile.api.exceptions.AuthorizationException;
  */
 public class Identity {
     
-    private final Application ws;
+    private final K5NApplication ws;
     private String sessionId;
 
-    public Identity(Application ws) {
+    public Identity(K5NApplication ws) {
         this.ws = ws;
     }
 

@@ -24,7 +24,7 @@ public abstract class MobilePlatform {
 
     private static MobilePlatform current;
     
-    private Application application;
+    private K5NApplication application;
     
     public static enum LifecycleEvent {
 
@@ -52,9 +52,9 @@ public abstract class MobilePlatform {
         return property;
     }
 
-    public Application getApplication() {
+    public K5NApplication getApplication() {
         if(application == null) {
-            application = new Application(this);
+            application = new K5NApplication(this);
         }
         return application;
     }

@@ -42,7 +42,7 @@
         <dependency>
             <groupId>org.javafxports</groupId>
             <artifactId>jfxdvk</artifactId>
-            <version>8.60.10</version>
+            <version>8.60.11</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

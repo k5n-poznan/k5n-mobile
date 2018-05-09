@@ -2,8 +2,6 @@ package org.k5n.mobile;
 
 import org.k5n.mobile.system.ViewManager;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.application.Platform;
@@ -13,13 +11,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import org.glassfish.jersey.internal.BootstrapBag;
-import org.glassfish.jersey.internal.BootstrapConfigurator;
-import org.glassfish.jersey.internal.inject.AbstractBinder;
-import org.glassfish.jersey.internal.inject.InjectionManager;
+import org.glassfish.hk2.api.Factory;
+import org.glassfish.hk2.api.ServiceLocator;
+import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.internal.inject.Injections;
-import org.glassfish.jersey.model.internal.ManagedObjectsFinalizer;
 import org.k5n.mobile.api.Identity;
+import org.k5n.mobile.api.K5NApplication;
 import org.k5n.mobile.api.MobilePlatform;
 import org.k5n.mobile.api.SettingService;
 import org.k5n.mobile.api.cache.CacheManager;
@@ -41,28 +38,72 @@ public class MainApp extends Application {
         stage.show();
 
         Platform.runLater(() -> {
-            InjectionManager im = Injections.createInjectionManager();
-
-            im.register(new AbstractBinder() {
+            ViewManager vm = new ViewManager();
+            ServiceLocator loc = Injections.createLocator(new AbstractBinder() {
                 @Override
                 protected void configure() {
                     bind(stage).to(Stage.class);
 
                     bind(platform).to(MobilePlatform.class);
-                    bindFactory(platform::getApplication).to(org.k5n.mobile.api.Application.class);
-                    bindFactory(() -> {
-                        return platform.getApplication().getIdentity();
+                    
+                    bindFactory(new Factory<K5NApplication>() {
+                        @Override
+                        public K5NApplication provide() {
+                            return platform.getApplication();
+                        }
+
+                        @Override
+                        public void dispose(K5NApplication t) {
+                        }
+                    }).to(K5NApplication.class);
+                    
+                    bindFactory(new Factory<Identity>() {
+                        @Override
+                        public Identity provide() {
+                            return platform.getApplication().getIdentity();
+                        }
+
+                        @Override
+                        public void dispose(Identity t) {
+                        }
                     }).to(Identity.class);
 
-                    bindFactory(platform::getCacheManager).to(CacheManager.class);
-                    bindFactory(platform::getSettingService).to(SettingService.class);
+                    bindFactory(new Factory<CacheManager>() {
+                        @Override
+                        public CacheManager provide() {
+                            return platform.getCacheManager();
+                        }
 
-                    bindFactory(() -> {
-                        return im.createAndInitialize(ViewManager.class);
+                        @Override
+                        public void dispose(CacheManager t) {
+                        }
+                    }).to(CacheManager.class);
+
+                    bindFactory(new Factory<SettingService>() {
+                        @Override
+                        public SettingService provide() {
+                            return platform.getSettingService();
+                        }
+
+                        @Override
+                        public void dispose(SettingService t) {
+                        }
+                    }).to(SettingService.class);
+
+                    bindFactory(new Factory<ViewManager>() {
+                        @Override
+                        public ViewManager provide() {
+                            return vm;
+                        }
+
+                        @Override
+                        public void dispose(ViewManager t) {
+                        }
                     }).to(ViewManager.class);
+                    
                 }
             });
-            ViewManager vm = im.getInstance(ViewManager.class);
+            loc.inject(vm);
             vm.showMainView();
         });
     }

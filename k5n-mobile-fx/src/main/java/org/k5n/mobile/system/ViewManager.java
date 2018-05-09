@@ -15,7 +15,7 @@ import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javax.inject.Inject;
-import org.glassfish.jersey.internal.inject.InjectionManager;
+import org.glassfish.hk2.api.ServiceLocator;
 import org.k5n.mobile.api.MobilePlatform;
 import org.k5n.mobile.view.MessagesController;
 import org.k5n.mobile.view.settings.ConnetionController;
@@ -33,7 +33,7 @@ public class ViewManager {
     private Stage stage;
 
     @Inject
-    private InjectionManager im;
+    private ServiceLocator im;
 
     @Inject
     private MobilePlatform mp;
