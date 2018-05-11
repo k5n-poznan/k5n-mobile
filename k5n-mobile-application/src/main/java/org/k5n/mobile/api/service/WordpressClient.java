@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
-import java.util.Collections;
 import java.util.Map;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.KeyManager;
@@ -53,18 +52,17 @@ public class WordpressClient {
     
     public Map<String,String> getUserRoles() throws Exception {
 
-        WebTarget target = target().path("roles");
+        WebTarget target = target().path("/roles");
         Response response = target.request()
-                .accept(MediaType.TEXT_PLAIN)
+                .accept(MediaType.APPLICATION_JSON)
                 .get();
 
         if (response.getStatus() != 200) {
             throw new MobileException("Błąd połączenia kod: " + response.getStatus());
         }
 
-        String out = response.readEntity(String.class);
-        System.out.println(out);
-        return Collections.EMPTY_MAP;
+        Map result = response.readEntity(Map.class);
+        return result;
     }
     
     private WebTarget target() {
