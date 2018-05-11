@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.Collections;
+import java.util.Map;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.KeyManager;
 import javax.net.ssl.SSLContext;
@@ -41,13 +43,17 @@ public class WordpressClient {
     private String endpointURL;
     private Client client;
 
+    public WordpressClient(Credentials credentials) {
+        init(credentials);
+    }
+    
     public void test() {
         
     }
     
-    public String getLoginStatus() throws Exception {
+    public Map<String,String> getUserRoles() throws Exception {
 
-        WebTarget target = target().path("login-status");
+        WebTarget target = target().path("roles");
         Response response = target.request()
                 .accept(MediaType.TEXT_PLAIN)
                 .get();
@@ -58,7 +64,7 @@ public class WordpressClient {
 
         String out = response.readEntity(String.class);
         System.out.println(out);
-        return "SUCCESS";
+        return Collections.EMPTY_MAP;
     }
     
     private WebTarget target() {
@@ -104,7 +110,7 @@ public class WordpressClient {
 
             if (credentials instanceof UsernamePasswordCredentials) {
                 UsernamePasswordCredentials unpc = (UsernamePasswordCredentials) credentials;
-
+                
                 HttpAuthenticationFeature feature = HttpAuthenticationFeature.basic(
                         unpc.getUserName(), unpc.getPassword());
 

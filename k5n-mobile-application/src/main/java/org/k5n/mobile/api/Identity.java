@@ -5,6 +5,8 @@
  */
 package org.k5n.mobile.api;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.k5n.mobile.api.auth.UsernamePasswordCredentials;
 import org.k5n.mobile.api.exceptions.AuthorizationException;
 
@@ -15,46 +17,47 @@ import org.k5n.mobile.api.exceptions.AuthorizationException;
  */
 public class Identity {
     
-    private final K5NApplication ws;
-    private String sessionId;
+    private final K5NApplication app;
+    private boolean authorized;
+    private final Map<String, String> userRoles = new HashMap<>();
 
-    public Identity(K5NApplication ws) {
-        this.ws = ws;
+    public Identity(K5NApplication app) {
+        this.app = app;
     }
 
-    public String getSessionId() {
-        return sessionId;
+    public boolean login(String username, String password) throws AuthorizationException {
+        authorized = authorize(username, password);
+        return authorized;
+    }
+
+    public void logout() throws AuthorizationException {
+        app.removeAuthorizedClient();
+        userRoles.clear();
+        authorized = false;
     }
     
-    public boolean login(String login, String password) throws AuthorizationException {
-        this.sessionId = authorize(login, password);
-        return sessionId != null;
-    }
     
-    
-    private String authorize(String login, String password) throws AuthorizationException {
-        
+    private boolean authorize(String username, String password) throws AuthorizationException {
         try {
+            userRoles.clear();
+            authorized = false;
             UsernamePasswordCredentials credentials = new UsernamePasswordCredentials(
-                    login,password
+                    username,password
             );
-            //ibs.initClient(credentials);
-            
-            return generateSessionID();
+            app.initAuthorizedClient(credentials);
+            userRoles.putAll(app.getClient().getUserRoles());
+            return true;
         } catch (Exception ex) {
            throw new AuthorizationException(ex);
         }
     }
-
-    private static int sessionNonceID = 0;
-
-    private String generateSessionID() {
-        sessionNonceID++;
-        return "xyzzy - session " + sessionNonceID;
+    
+    public boolean hasRole(String name) {
+        return userRoles.containsKey(name);
     }
 
     public boolean isLoggedIn() {
-        return false;
+        return authorized;
     }
 
 }

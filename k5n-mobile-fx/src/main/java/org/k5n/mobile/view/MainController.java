@@ -18,6 +18,7 @@ import javafx.scene.layout.VBox;
 import javax.inject.Inject;
 import org.k5n.mobile.api.Identity;
 import org.k5n.mobile.api.MobilePlatform;
+import org.k5n.mobile.api.SettingService;
 import org.k5n.mobile.api.exceptions.AuthorizationException;
 import org.k5n.mobile.system.ViewManager;
 
@@ -29,7 +30,7 @@ import org.k5n.mobile.system.ViewManager;
 public class MainController implements Initializable {
 
     private static final Logger log = Logger.getLogger(LoginController.class.getName());
-    
+
     @FXML
     private Label sessionLabel;
 
@@ -47,17 +48,24 @@ public class MainController implements Initializable {
 
     @Inject
     private ViewManager vm;
-    
+
     @Inject
     private MobilePlatform mp;
-    
+
     @Inject
     private Identity identity;
-    
-    
+
+    @Inject
+    private SettingService setting;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         boolean logged = identity.isLoggedIn();
+        adminButtom.setDisable(true);
+    }
+
+    public void setLogged(boolean logged) {
+        adminButtom.setDisable(!logged);
         if (!logged) {
             adminButtom.setVisible(false);
             vbox.getChildren().remove(adminButtom);
@@ -66,9 +74,9 @@ public class MainController implements Initializable {
 
     @FXML
     private void handleSettingsButtonAction(ActionEvent event) throws AuthorizationException {
-        vm.showConnectionView();
+        vm.showPropertiesView();
     }
-    
+
     @FXML
     private void handleExitButtonAction(ActionEvent event) {
         mp.finish();

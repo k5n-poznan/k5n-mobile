@@ -42,10 +42,13 @@ public class DesktopSettingService implements SettingService {
 
     @Override
     public void store(String key, String value) {
-        settings.setProperty(key, value);
-        saveSettings();
-
-        LOG.log(Level.INFO, "Updated setting {0} = \"{1}\"", new Object[]{key, value});
+        if (value != null) {
+            settings.setProperty(key, value);
+            saveSettings();
+            LOG.log(Level.INFO, "Updated setting {0} = \"{1}\"", new Object[]{key, value});
+        } else {
+            remove(key);
+        }
     }
 
     @Override

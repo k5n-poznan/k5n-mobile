@@ -29,9 +29,13 @@ public class AndroidSettingService implements SettingService {
 
     @Override
     public void store(String key, String value) {
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString(key, value);
-        editor.commit();
+        if (value != null) {
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putString(key, value);
+            editor.commit();
+        } else {
+            remove(key);
+        }
     }
 
     @Override

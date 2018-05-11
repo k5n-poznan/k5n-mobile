@@ -3,6 +3,7 @@
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
@@ -36,19 +37,14 @@
                                  </VBox.margin>
                               </Label>
                               <Separator />
-                          <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" VBox.vgrow="ALWAYS">
-                                 <children>
-                                    <Label layoutX="13.0" layoutY="14.0" text="Adres strony K5N:" AnchorPane.leftAnchor="5.0" />
-                                    <TextField fx:id="serviceurl" layoutX="13.0" layoutY="36.0" prefHeight="26.0" prefWidth="264.0" promptText="Wpisz adres strony K5N" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
-                                    <Label layoutX="13.0" layoutY="71.0" text="Nazwa użytkownika K5N:" AnchorPane.leftAnchor="5.0" />
-                                    <TextField fx:id="servicelogin" layoutX="13.0" layoutY="94.0" prefHeight="26.0" prefWidth="264.0" promptText="Wpisz użytkownika K5N" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
-                                    <Label layoutX="14.0" layoutY="127.0" text="Hasło użytkownika:" AnchorPane.leftAnchor="5.0" />
-                                    <TextField fx:id="servicepassword" layoutX="15.0" layoutY="151.0" prefHeight="26.0" prefWidth="264.0" promptText="Wpisz hasło użytkownika K5N" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets bottom="10.0" />
-                                 </VBox.margin>
-                              </AnchorPane>
+                              <Label text="Adres strony K5N:" />
+                              <TextField fx:id="serviceurl" prefHeight="26.0" prefWidth="264.0" promptText="Wpisz adres strony K5N" />
+                              <Separator prefWidth="200.0" />
+                              <CheckBox fx:id="login" mnemonicParsing="false" text="Posiadam konto użytkownika K5N" />
+                              <Label text="Nazwa użytkownika K5N:" />
+                              <TextField fx:id="username" prefHeight="26.0" prefWidth="264.0" promptText="Wpisz użytkownika K5N" />
+                              <Label text="Hasło użytkownika:" />
+                              <TextField fx:id="password" prefHeight="26.0" prefWidth="264.0" promptText="Wpisz hasło użytkownika K5N" />
                               <Separator prefWidth="200.0" />
                            </children>
                            <padding>
