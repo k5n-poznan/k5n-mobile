@@ -1,4 +1,4 @@
-# WP-K5N Mobile
+# K5N Mobile
 A K5M mobile application for Android
 
 ## Contributing
