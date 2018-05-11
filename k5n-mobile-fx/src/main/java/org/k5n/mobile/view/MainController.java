@@ -60,18 +60,25 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        boolean logged = identity.isLoggedIn();
         adminButtom.setDisable(true);
     }
 
     public void setLogged(boolean logged) {
-        adminButtom.setDisable(!logged);
-        if (!logged) {
+        if(logged) {
+            showAdminFunctions(identity.hasRole("administrator"));
+        } else {
+            showAdminFunctions(false);
+        }
+    }
+
+    private void showAdminFunctions(boolean show) {
+        adminButtom.setDisable(!show);
+        if (!show) {
             adminButtom.setVisible(false);
             vbox.getChildren().remove(adminButtom);
         }
     }
-
+    
     @FXML
     private void handleSettingsButtonAction(ActionEvent event) throws AuthorizationException {
         vm.showPropertiesView();
