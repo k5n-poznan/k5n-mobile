@@ -9,7 +9,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker.State;
@@ -25,9 +24,6 @@ import org.k5n.mobile.api.MobilePlatform;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-import org.w3c.dom.events.Event;
-import org.w3c.dom.events.EventListener;
-import org.w3c.dom.events.EventTarget;
 
 /**
  * FXML Controller class
@@ -78,30 +74,11 @@ public class MessagesController implements Initializable {
 
         webEngine.loadContent(sb.toString());
 
-        EventListener listener = (Event ev) -> {
-            String domEventType = ev.getType();
-            if (domEventType.equals(EVENT_TYPE_CLICK)) {
-                String href = ((Element) ev.getTarget()).getAttribute("href");
-                if (href == null) {
-                    return;
-                }
-                Platform.runLater(() -> {
-                    fireHyperlinkUpdate(domEventType, href);
-                });
-                ev.preventDefault();;
-            }
-        };
-
         webEngine.getLoadWorker().stateProperty().addListener(new ChangeListener<State>() {
             @Override
             public void changed(ObservableValue ov, State oldState, State newState) {
                 if (newState == State.SUCCEEDED) {
                     Document doc = webEngine.getDocument();
-                    Element el = doc.getElementById("a");
-                    NodeList lista = doc.getElementsByTagName("a");
-                    for (int i = 0; i < lista.getLength(); i++) {
-                        ((EventTarget) lista.item(i)).addEventListener(EVENT_TYPE_CLICK, listener, false);
-                    }
                 }
             }
         });
