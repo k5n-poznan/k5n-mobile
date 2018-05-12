@@ -90,7 +90,6 @@ public class MessagesController implements Initializable {
         StringBuilder sb = new StringBuilder();
         sb.append("<html>");
         sb.append("<body>");
-        //data:image/png;base64(...)
         sb.append("<img src=\"data:image/png;base64,").append(bimg).append("\" alt=\"no image\" style=\"vertical-align: middle;\"/>");
         sb.append("<b>").append(title).append("</b>");
         sb.append("<hr/>");
