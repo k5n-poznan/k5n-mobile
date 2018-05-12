@@ -29,7 +29,7 @@ import org.k5n.mobile.system.ViewManager;
  */
 public class MainController implements Initializable {
 
-    private static final Logger log = Logger.getLogger(LoginController.class.getName());
+    private static final Logger log = Logger.getLogger(MainController.class.getName());
 
     @FXML
     private Label sessionLabel;

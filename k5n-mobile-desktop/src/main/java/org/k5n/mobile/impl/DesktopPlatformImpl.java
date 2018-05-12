@@ -60,10 +60,14 @@ public final class DesktopPlatformImpl extends MobilePlatform {
     public Optional<Orientation> getOrientation() {
         return Optional.of(Orientation.VERTICAL);
     }
-    
+
     @Override
     public void launchExternalBrowser(String url) throws IOException, URISyntaxException {
-        Desktop.getDesktop().browse(new URI(url));
+        if (Runtime.getRuntime().exec(new String[]{"which", "xdg-open"}).getInputStream().read() != -1) {
+            Runtime.getRuntime().exec(new String[]{"xdg-open", url});
+        } else if (Desktop.isDesktopSupported()) {
+            Desktop.getDesktop().browse(new URI(url));
+        }
     }
 
     @Override

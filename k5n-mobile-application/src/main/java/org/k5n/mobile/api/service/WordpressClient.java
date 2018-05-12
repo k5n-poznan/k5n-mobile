@@ -31,6 +31,8 @@ import org.k5n.mobile.api.Properties;
 import org.k5n.mobile.api.SettingService;
 import org.k5n.mobile.api.auth.Credentials;
 import org.k5n.mobile.api.auth.UsernamePasswordCredentials;
+import org.k5n.mobile.api.exceptions.AuthorizationException;
+import org.k5n.mobile.api.exceptions.ComunicationException;
 import org.k5n.mobile.api.exceptions.MobileException;
 
 /**
@@ -45,26 +47,39 @@ public class WordpressClient {
     public WordpressClient(Credentials credentials) {
         init(credentials);
     }
-    
+
     public void test() {
-        
+
     }
-    
-    public Map<String,String> getUserRoles() throws Exception {
+
+    public Map<String, String> getUserRoles() throws Exception {
 
         WebTarget target = target().path("/roles");
         Response response = target.request()
                 .accept(MediaType.APPLICATION_JSON)
                 .get();
 
-        if (response.getStatus() != 200) {
-            throw new MobileException("Błąd połączenia kod: " + response.getStatus());
-        }
+        checkResponce(response);
 
         Map result = response.readEntity(Map.class);
         return result;
     }
-    
+
+    private void checkResponce(Response response) throws MobileException {
+        if (response.getStatus() != 200) {
+            Map<String,String> err = response.readEntity(Map.class);
+            if (err != null && err.containsKey("code")) {
+                if ("rest_cannot_subscribers".equals("code")) {
+                    throw new AuthorizationException(err.get("message"));
+                } else {
+                    throw new ComunicationException(err.get("message"));
+                }
+            } else {
+                throw new MobileException("Błąd połączenia kod: " + response.getStatus());
+            }
+        }
+    }
+
     private WebTarget target() {
         String url = endpointURL;
         WebTarget target = client.target(url);
@@ -108,7 +123,7 @@ public class WordpressClient {
 
             if (credentials instanceof UsernamePasswordCredentials) {
                 UsernamePasswordCredentials unpc = (UsernamePasswordCredentials) credentials;
-                
+
                 HttpAuthenticationFeature feature = HttpAuthenticationFeature.basic(
                         unpc.getUserName(), unpc.getPassword());
 

@@ -9,17 +9,17 @@ package org.k5n.mobile.api.exceptions;
  *
  * @author Waldemar Kłaczyński
  */
-public class AuthorizationException extends MobileException {
+public class ComunicationException extends MobileException {
 
-    public AuthorizationException(String message) {
+    public ComunicationException(String message) {
         super(message);
     }
 
-    public AuthorizationException(Throwable cause) {
+    public ComunicationException(Throwable cause) {
         this(cause.getMessage(), cause);
     }
 
-    public AuthorizationException(String message, Throwable cause) {
+    public ComunicationException(String message, Throwable cause) {
         super(message, cause);
     }
 

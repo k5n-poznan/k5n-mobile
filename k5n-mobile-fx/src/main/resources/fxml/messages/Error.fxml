@@ -4,11 +4,11 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.web.WebView?>
 
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="296.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.k5n.mobile.view.MessagesController">
     <stylesheets>
@@ -21,7 +21,6 @@
          </image>
       </ImageView>
       <Separator layoutX="14.0" layoutY="72.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
-      <TextArea fx:id="errortext" editable="false" layoutX="10.0" layoutY="84.0" wrapText="true" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="80.0" />
       <Label layoutX="75.0" layoutY="31.0" prefHeight="16.0" prefWidth="204.0" text="Błąd wykonania operacji">
          <font>
             <Font name="System Bold" size="13.0" />
@@ -29,5 +28,6 @@
       </Label>
       <Button layoutX="13.0" layoutY="360.0" mnemonicParsing="false" onAction="#handleCancelButtonAction" prefWidth="100.0" text="OK" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="13.0" />
       <Separator layoutX="13.0" layoutY="349.0" prefWidth="200.0" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+      <WebView fx:id="browser" layoutX="10.0" layoutY="81.0" prefHeight="-1.0" prefWidth="-1.0" AnchorPane.bottomAnchor="54.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="80.0" />
    </children>
 </AnchorPane>
