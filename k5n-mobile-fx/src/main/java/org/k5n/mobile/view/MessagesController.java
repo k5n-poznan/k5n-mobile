@@ -5,7 +5,9 @@ package org.k5n.mobile.view;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import java.io.InputStream;
 import java.net.URL;
+import java.util.Base64;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,14 +18,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import javax.inject.Inject;
 import org.k5n.mobile.api.MobilePlatform;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
+import org.k5n.mobile.api.exceptions.AuthorizationException;
+import org.k5n.mobile.system.ViewManager;
 
 /**
  * FXML Controller class
@@ -41,6 +43,9 @@ public class MessagesController implements Initializable {
     @FXML
     private WebView browser;
 
+    @FXML
+    private Button settingsButton;
+    
     private Scene parent;
 
     @Inject
@@ -49,45 +54,93 @@ public class MessagesController implements Initializable {
     @Inject
     private MobilePlatform mp;
 
+    @Inject
+    private ViewManager vm;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.parent = stage.getScene();
-        WebEngine webEngine = browser.getEngine();
     }
 
     @SuppressWarnings("Convert2Lambda")
     public void showError(Throwable th) {
+        String title = "Błąd operacji";
         String message = "";
-        Throwable cause = th.getCause();
+        boolean hassettings = false;
+
+        Throwable cause = th;
         while (cause != null) {
+            if (cause instanceof AuthorizationException) {
+                title = "Błąd uwierzytelnienia";
+                hassettings = true;
+            } else if (cause instanceof AuthorizationException) {
+                hassettings = true;
+                title = "Błąd połączenia";
+            }
             message = cause.getMessage();
             cause = cause.getCause();
         }
-
+        
+        showSettingsFunctions(hassettings);
+        
+        byte[] res = readResource("/fxml/messages/error.png");
+        String bimg = new String(Base64.getEncoder().encode(res));
+        
         WebEngine webEngine = browser.getEngine();
         StringBuilder sb = new StringBuilder();
         sb.append("<html>");
         sb.append("<body>");
+        //data:image/png;base64(...)
+        sb.append("<img src=\"data:image/png;base64,").append(bimg).append("\" alt=\"no image\" style=\"vertical-align: middle;\"/>");
+        sb.append("<b>").append(title).append("</b>");
+        sb.append("<hr/>");
+
         sb.append(message);
         sb.append("</body>");
         sb.append("</html>");
 
-        webEngine.loadContent(sb.toString());
+        String content = sb.toString();
+        System.out.println(content);
+        webEngine.loadContent(content);
 
         webEngine.getLoadWorker().stateProperty().addListener(new ChangeListener<State>() {
             @Override
             public void changed(ObservableValue ov, State oldState, State newState) {
                 if (newState == State.SUCCEEDED) {
-                    Document doc = webEngine.getDocument();
+
                 }
             }
         });
+    }
 
+    private void showSettingsFunctions(boolean show) {
+        settingsButton.setVisible(show);
+        settingsButton.setDisable(!show);
+    }
+    
+    
+    public byte[] readResource(String path) {
+        try (InputStream is = getClass().getResourceAsStream(path)) {
+            int available = is.available();
+            byte[] result = new byte[available];
+            is.read(result, 0, available);
+
+            return result;
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Failed to load resource " + path, e);
+        }
+
+        return new byte[0];
     }
 
     @FXML
     private void handleCancelButtonAction(ActionEvent event) {
         stage.setScene(parent);
+    }
+
+    @FXML
+    private void handleSettingsButtonAction(ActionEvent event) {
+        vm.showPropertiesView();
     }
 
     protected void fireHyperlinkUpdate(String eventType, String desc) {
